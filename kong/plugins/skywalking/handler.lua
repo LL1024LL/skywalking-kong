@@ -38,7 +38,8 @@ function SkyWalkingHandler:access(config)
         return
     end
     local log = ngx.log
-
+    log(ngx.ERR, "ngx.worker.count() is : ", ngx.worker.count())
+    
     if config.sample_ratio == 100 or math.random() * 100 < config.sample_ratio then
         kong.ctx.plugin.skywalking_sample = true
         log(ngx.ERR, "my work id is : ", ngx.worker.id())
