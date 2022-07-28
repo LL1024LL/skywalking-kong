@@ -38,17 +38,17 @@ function SkyWalkingHandler:access(config)
         return
     end
     local log = ngx.log
+
     if config.sample_ratio == 100 or math.random() * 100 < config.sample_ratio then
         kong.ctx.plugin.skywalking_sample = true
-
+        log(ngx.ERR, "my work id is : ", ngx.worker.id())
         if not client:isInitialized() then
-            log(ngx.ERR, "my work id is : ", ngx.worker.id())
             local metadata_buffer = ngx.shared.tracing_buffer
             metadata_buffer:set('serviceName', config.service_name)
             metadata_buffer:set('serviceInstanceName', config.service_instance_name)
             metadata_buffer:set('includeHostInEntrySpan', config.include_host_in_entry_span)
-            -- for not report test
-            -- client:startBackendTimer(config.backend_http_uri)
+            log(ngx.ERR, "my work id is : ", ngx.worker.id(), "i will do startBackendTimer")
+            client:startBackendTimer(config.backend_http_uri)
         end
         
         tracer:start(self:get_remote_peer(ngx.ctx.balancer_data))
