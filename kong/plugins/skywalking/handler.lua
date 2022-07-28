@@ -47,8 +47,8 @@ function SkyWalkingHandler:access(config)
             metadata_buffer:set('serviceName', config.service_name)
             metadata_buffer:set('serviceInstanceName', config.service_instance_name)
             metadata_buffer:set('includeHostInEntrySpan', config.include_host_in_entry_span)
-
-            client:startBackendTimer(config.backend_http_uri)
+            -- for not report test
+            -- client:startBackendTimer(config.backend_http_uri)
         end
         
         tracer:start(self:get_remote_peer(ngx.ctx.balancer_data))
